@@ -33,3 +33,20 @@ SemaphoreHandle_t xLCDStateSemaphore = xSemaphoreCreateMutex();
 
 // TASK 3: Current display state
 DisplayState_t currentDisplayState = DISPLAY_STATE_NORMAL;
+
+SensorData_t getLatestSensorData()
+{
+    SensorData_t data;
+    if (xSemaphoreTake(xMutexSensorData, pdMS_TO_TICKS(100)) == pdTRUE)
+    {
+        data = latestSensorData;
+        xSemaphoreGive(xMutexSensorData);
+    }
+    else
+    {
+        // Trả về dữ liệu trống/lỗi nếu không thể lấy Mutex
+        data.temperature = -999;
+        data.humidity = -999;
+    }
+    return data;
+}

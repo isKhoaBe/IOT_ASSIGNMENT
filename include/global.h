@@ -26,7 +26,8 @@ extern SemaphoreHandle_t xTempUpdateSemaphore;
 extern SemaphoreHandle_t xHumidityUpdateSemaphore;
 
 // TASK 3: Structure for sensor data (replaces global variables)
-typedef struct {
+typedef struct
+{
     float temperature;
     float humidity;
     unsigned long timestamp;
@@ -39,12 +40,17 @@ extern QueueHandle_t xSensorDataQueue;
 extern SemaphoreHandle_t xLCDStateSemaphore;
 
 // TASK 3: Display states
-typedef enum {
+typedef enum
+{
     DISPLAY_STATE_NORMAL,
     DISPLAY_STATE_WARNING,
     DISPLAY_STATE_CRITICAL
 } DisplayState_t;
 
 extern DisplayState_t currentDisplayState;
+// Cấu trúc chứa dữ liệu Sensor mới nhất
+extern SensorData_t latestSensorData;
+// Mutex Handle để bảo vệ latestSensorData
+extern SemaphoreHandle_t xMutexSensorData;
 
 #endif
