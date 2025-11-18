@@ -5,16 +5,19 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
-#include "freertos/queue.h"
+#include <freertos/queue.h>
+#include <Preferences.h>
+
+Preferences preferences;
 
 extern float glob_temperature;
 extern float glob_humidity;
 
-extern String WIFI_SSID;
-extern String WIFI_PASS;
-extern String CORE_IOT_TOKEN;
-extern String CORE_IOT_SERVER;
-extern String CORE_IOT_PORT;
+// extern String WIFI_SSID;
+// extern String WIFI_PASS;
+// extern String CORE_IOT_TOKEN;
+// extern String CORE_IOT_SERVER;
+// extern String CORE_IOT_PORT;
 
 extern boolean isWifiConnected;
 extern SemaphoreHandle_t xBinarySemaphoreInternet;
@@ -48,9 +51,30 @@ typedef enum
 } DisplayState_t;
 
 extern DisplayState_t currentDisplayState;
-// Cấu trúc chứa dữ liệu Sensor mới nhất
+
+// Webserver
+typedef struct
+{
+    int gpioPin;
+    bool newState;
+} RelayControlCommand;
+
+typedef struct
+{
+    String ssid;
+    String password;
+    String token;
+    String server;
+    int port;
+} SettingsCommand;
+
+extern QueueHandle_t xQueueRelayControl;
+extern QueueHandle_t xQueueSettings;
 extern SensorData_t latestSensorData;
-// Mutex Handle để bảo vệ latestSensorData
 extern SemaphoreHandle_t xMutexSensorData;
+extern QueueHandle_t xQueueSettings;
+extern boolean isWifiConnected;
+extern SensorData_t getLatestSensorData();
+extern SettingsCommand currentSettings;
 
 #endif

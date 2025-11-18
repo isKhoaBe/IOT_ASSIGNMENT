@@ -8,6 +8,10 @@
 #include <ArduinoJson.h>
 #include <ElegantOTA.h>
 #include <task_handler.h>
+#include <freertos/queue.h>
+#include <freertos/semphr.h>
+#include <ArduinoJson.h>
+#include <Arduino.h>
 
 extern AsyncWebServer server;
 extern AsyncWebSocket ws;
@@ -15,5 +19,6 @@ extern AsyncWebSocket ws;
 void Webserver_stop();
 void Webserver_reconnect();
 void Webserver_sendata(String data);
+void Webserver_RTOS_Task(void *pvParameters);
 
 #endif
